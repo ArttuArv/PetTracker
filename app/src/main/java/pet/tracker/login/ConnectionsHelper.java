@@ -1,5 +1,6 @@
 package pet.tracker.login;   // Muuttakaa tarvittaessa tämä
 
+
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
 
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Properties;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -17,32 +19,32 @@ import com.jcraft.jsch.Session;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 /***************************************************************************************************
-*
-*    Täs on appin build.gradleen implementaationit:
-*
-*    implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.9.0'
-*    implementation 'com.jcraft:jsch:0.1.54'
-*    implementation 'org.mariadb.jdbc:mariadb-java-client:1.8.0'
-*
-*    Tää pitää sisällään tunnistetietoja servereillä.
-*    Pitää myös sisällään valmiit keinot tulla servereille sisään.
-*    Jättäkää tämä tiedosto gitHubin ulkopuolelle, kun laitatte projektitiedostoja gitHubiin.
-*
-***************************************************************************************************/
+ *
+ *    Täs on appin build.gradleen implementaationit:
+ *
+ *    implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.9.0'
+ *    implementation 'com.jcraft:jsch:0.1.54'
+ *    implementation 'org.mariadb.jdbc:mariadb-java-client:1.8.0'
+ *
+ *    Tää pitää sisällään tunnistetietoja servereillä.
+ *    Pitää myös sisällään valmiit keinot tulla servereille sisään.
+ *    Jättäkää tämä tiedosto gitHubin ulkopuolelle, kun laitatte projektitiedostoja gitHubiin.
+ *
+ ***************************************************************************************************/
 
 public class ConnectionsHelper {
 
-    private static final String sshUser = "";
-    private static final String sshPword = "";
-    private static final String hostname = "";
-    private static final int sshPort = 0;
+    private static final String sshUser = "pettracker";
+    private static final String sshPword = "pettracker1234";
+    private static final String hostname = "84.248.10.238";
+    private static final int sshPort = 384;
     private int assignedPort = 0;
 
-    private static final String dbUname = "";
-    private static final String dbPassword = "";
-    private static final String dbName = "";
-    private static final String dbHost = "";
-    private static final String dbPort = "";
+    private static final String dbUname = "pettracker";
+    private static final String dbPassword = "pettracker1234";
+    private static final String dbName = "pettrackkerdb";
+    private static final String dbHost = "127.0.0.1";
+    private static final String dbPort = "3306";
     private String dbConnUrl = "";
 
     private Session session;
@@ -50,6 +52,9 @@ public class ConnectionsHelper {
 
     //Tässä on Singleton-tyyppinen luokka tiedonkeruuta varten
     DatabaseData dataStash = DatabaseData.getInstance();
+
+
+    java.sql.Timestamp locationUpdateTime;
 
     //Parametritön konstruktori
     public ConnectionsHelper() {}
@@ -175,11 +180,11 @@ public class ConnectionsHelper {
                 sqlResult = "Väärä käyttäjätunnus";
                 return sqlResult;
             } else {
-            // Else-haarassa palautuksessa on käyttäjätunnusta vastaava salasana, joka palautetaan pääohjelmaan
+                // Else-haarassa palautuksessa on käyttäjätunnusta vastaava salasana, joka palautetaan pääohjelmaan
                 return result.getString( "password" );
             }
         } catch ( SQLException se ) {
-        // Kaikki sql-syntaksiin liittyvät virheet tulevat catchin kautta
+            // Kaikki sql-syntaksiin liittyvät virheet tulevat catchin kautta
             System.out.println( "Error during access to login: " + se.getMessage());
             return "Mahdollinen SQL-injektio";
         }
@@ -210,8 +215,8 @@ public class ConnectionsHelper {
                 System.out.println( "Result.first() = " + result.first() );
                 System.out.println( "Username free to use");
                 return true;
-            // Jos tietokannasta tulee annettua käyttäjätunnusta vastaava käyttäjätunnus, funktio
-            // palauttaa falsen kertoen, että käyttäjänimi on käytössä
+                // Jos tietokannasta tulee annettua käyttäjätunnusta vastaava käyttäjätunnus, funktio
+                // palauttaa falsen kertoen, että käyttäjänimi on käytössä
             } else {
                 // Debuggaustulostuksia
                 System.out.println( "Result.first() = " + result.first() );
@@ -292,6 +297,48 @@ public class ConnectionsHelper {
         }
     }
 
+    protected boolean startWalk(){
+        ResultSet result;
+        PreparedStatement p;
+        String sqlQuery = "INSERT INTO course(pets_idpets, gpsvalues, speed_distance) VALUES(?, ?, ?)";
+        try {
+            p = connection.prepareStatement( sqlQuery );
+            p.setInt(1, dataStash.getPetID() );
+            p.setString( 2, "Uusi lenkki" );
+            p.setString( 3, null );
+            //Viedään kysely tietokantaan
+            int i = p.executeUpdate();
+
+            if ( i > 0 ) {
+                try {
+                    sqlQuery = "SELECT LAST_INSERT_ID() FROM course WHERE pets_idpets = ?";
+                    p = connection.prepareStatement(sqlQuery);
+                    p.setInt(1,dataStash.getPetID());
+                    result = p.executeQuery();
+                    if(!result.first()){
+                        System.out.println("No last Walk found from course table");
+                        return false;
+                    }
+                    else {
+                        dataStash.setLatestCourseID(result.getInt("LAST_INSERT_ID()"));
+                        System.out.println( "Course table succesfully updated!" );
+                        return true;
+                    }
+
+                } catch ( SQLException se ) {
+                    return false;
+                }
+            } else {
+                System.out.println( "Creating a new course failed" );
+                return false;
+            }
+
+        } catch ( SQLException se ) {
+            System.out.println("Error inserting data to course table: " + se.getMessage());
+            return false;
+        }
+    }
+
     //Tuhoaa käyttäjätunnuksen tietokannasta
     protected void deleteUserFromLogin( String username ) {
 
@@ -317,43 +364,49 @@ public class ConnectionsHelper {
     }
 
     //Tallenetaan gps ja muut tiedot tietokantaan
-    protected void setCourseData( int petID, String gpsValues, String speed_dist ) {
+    protected boolean setCourseData(String gpsValues) {
         PreparedStatement p;
-        speed_dist = "Tähän voi tarvittaessa laittaa vaikka paskaa, jos ei oo oikeata nopeus/matka-dadaa";
-        String sqlQuery = "INSERT INTO course(pets_idpets, gpsvalues, speed_distance) VALUES(?, ?, ?)";
+        String sqlQuery = "INSERT INTO gsp(course_idcourse, latlongspeed, time) VALUES(?, ?, ?)";
 
         //Syötetään course-tauluun sitä daddelia
         try {
+            locationUpdateTime = new java.sql.Timestamp(new java.util.Date().getTime());
             p = connection.prepareStatement( sqlQuery );
-            p.setInt(1, petID );
+            p.setInt(1, dataStash.getLatestCourseID() );
             p.setString( 2, gpsValues );
-            p.setString( 3, speed_dist );
+            p.setTimestamp(3,locationUpdateTime);
 
             //Viedään kysely tietokantaan
             int i = p.executeUpdate();
 
             if ( i > 0 ) {
                 System.out.println( "Course table succesfully updated!" );
+                return true;
             } else {
                 System.out.println( "Updating course table failed!" );
+                return false;
             }
 
         } catch ( SQLException se ) {
 
             System.out.println( "Error inserting data to course table: " + se.getMessage() );
+            return false;
         }
+
     }
 
     //Haetaan kaikki käyttäjään liittyvä tieto tietokannasta ja tallennetaan singletoniin
     protected boolean getAllData( String username ) {
         PreparedStatement p;
         ResultSet result;
+        int courseArraySize = 0;
 
         //SQL-kyselyt eri tauluihin
         String sqlGetLogin = "SELECT idlogin FROM login WHERE username = ?";
         String sqlGetOwner = "SELECT * FROM owner WHERE login_idlogin = ?";
         String sqlGetPets = "SELECT * FROM pets WHERE owner_idowner = ? AND idpets = ?";
         String sqlGetCourse = "SELECT * FROM course WHERE pets_idpets = ?";
+        String sqlGetAllCourses = "SELECT COUNT(idcourse) FROM course WHERE pets_idpets = ?";
 
         System.out.println( "Gathering all data related to username " + username );
 
@@ -436,6 +489,23 @@ public class ConnectionsHelper {
 
         //Haetaan kaikki lenkkeihin liittyvä tieto
         try {
+            p = connection.prepareStatement(sqlGetAllCourses);
+            p.setInt( 1, dataStash.getPetID() );
+            result = p.executeQuery();
+
+
+            if ( !result.first() ) {
+                System.out.println( "No data in the table");
+                return true;
+            } else {
+                dataStash.setAllCourseIDsize(courseArraySize = result.getInt("COUNT(idcourse)"));
+                System.out.println("All Walks gathered");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        try {
             p = connection.prepareStatement( sqlGetCourse );
             p.setInt( 1, dataStash.getPetID() );
             result = p.executeQuery();
@@ -446,10 +516,16 @@ public class ConnectionsHelper {
                 System.out.println( "No data in the table");
                 return true;
             } else {
+                int kierros =0;
+                while (!result.isAfterLast()){
+                    dataStash.setAllCourseID(kierros, result.getInt("idcourse"));
+                    result.next();
+                }
+                System.out.println("################"+dataStash.getAllCourseID() + "##############");
                 //Jos tulee rivejä, niin tallennetaan ne singletonin paremetreiksi
-                dataStash.setCourseID( result.getInt( "idcourse" ) );
-                dataStash.setGpsValues( result.getString( "gpsvalues" ) );
-                dataStash.setSpeed_distance( result.getString( "speed_distance" ) );
+                //dataStash.setCourseID( result.getInt( "idcourse" ) );
+                // dataStash.setGpsValues( result.getString( "gpsvalues" ) );
+                //dataStash.setSpeed_distance( result.getString( "speed_distance" ) );
 
                 System.out.println( "Course table done!");
                 System.out.println( "Data gathered succesfully!" );
