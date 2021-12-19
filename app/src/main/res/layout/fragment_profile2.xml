@@ -20,6 +20,7 @@
 
     <EditText
         android:id="@+id/modifyName"
+        android:textColor="@color/dark_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -42,6 +43,7 @@
 
     <EditText
         android:id="@+id/modifyAddress"
+        android:textColor="@color/dark_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -64,6 +66,7 @@
 
     <EditText
         android:id="@+id/modifyPhone"
+        android:textColor="@color/dark_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -100,6 +103,7 @@
 
     <EditText
         android:id="@+id/modifyDogName"
+        android:textColor="@color/dark_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -123,6 +127,7 @@
 
     <EditText
         android:id="@+id/modifyDogBreed"
+        android:textColor="@color/dark_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

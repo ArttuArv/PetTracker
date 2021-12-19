@@ -1,15 +1,22 @@
 package pet.tracker.login;
 
+
 /************************************************************************
  *                                                                      *
  *   Tää on singleton-tyyppinen olio, joka tuhoutuu vasta kun           *
- *   appi tuhoutuu. Tää vois olla hyvä tiedonkeruuastia, niin ei tarvi  *
- *   haeskella ssh:n kautta koko aika                                   *
+ *   appi sammuu. Tää vois olla hyvä tiedonkeruuastia, niin ei tarvi    *
+ *   haeskella ssh:n kautta koko aika.                                  *
+ *                                                                      *
+ *   KÄYTTÖ:                                                            *
  *   Alustetaan DatabaseData "joku nimi" = DatabaseData.getInstance();  *
  *   Oliossa on getterit ja setterit, joten tiedonhaku ja -tallennus    *
  *   onnistuu käyttämällä komentoja esim.                               *
  *   "joku nimi".setUserName( "Kari Tapio"); ja                         *
  *   "joku nimi".getUserName();                                         *
+ *                                                                      *
+ *   Login-toiminnallisuudessa mä oon hakenut kaikki käyttäjään         *
+ *   liittyvät tiedot ja tallentanut ne tähän singletoniin.             *
+ *                                                                      *
  *                                                                      *
  ***********************************************************************/
 
@@ -27,6 +34,8 @@ public class DatabaseData {
     private String petBreed = "";
 
     private int courseID;
+    private int latestCourseID;
+    private int[] allCourseID;
     private String gpsValues = "";
     private String speed_distance = "";
 
@@ -133,4 +142,18 @@ public class DatabaseData {
         this.speed_distance = speed_distance;
     }
 
+    public int getLatestCourseID() { return latestCourseID; }
+
+    public void setLatestCourseID(int latestCourseID) { this.latestCourseID = latestCourseID; }
+
+    public int[] getAllCourseID() {
+        return allCourseID;
+    }
+
+    public void setAllCourseID(int i,int allCourseID) {
+        this.allCourseID[i] = allCourseID;
+    }
+    public void setAllCourseIDsize(int size){
+        this.allCourseID = new int[size];
+    }
 }
