@@ -35,6 +35,7 @@
 
     <EditText
         android:id="@+id/editWholeName"
+        android:textColor="@color/dark_blue"
         android:layout_width="268dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -51,6 +52,7 @@
 
     <EditText
         android:id="@+id/editAddress"
+        android:textColor="@color/dark_blue"
         android:layout_width="268dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -67,6 +69,7 @@
 
     <EditText
         android:id="@+id/editPhonenumber"
+        android:textColor="@color/dark_blue"
         android:layout_width="268dp"
         android:layout_height="43dp"
         android:ems="10"
