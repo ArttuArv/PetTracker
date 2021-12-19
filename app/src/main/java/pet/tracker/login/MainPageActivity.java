@@ -3,9 +3,25 @@ package pet.tracker.login;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -20,7 +36,13 @@ public class MainPageActivity extends AppCompatActivity {
     private final int ID_LOCATION = 2;
     private final int ID_LOG = 3;
     private final int ID_PROFILE = 4;
-    private int kierros = 0;
+
+    BluetoothAdapter BtAdapter = BluetoothAdapter.getDefaultAdapter();
+    Intent enableBtIntent;
+    int REQUEST_ENABLE_BT = 1;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +50,9 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
         MeowBottomNavigation bottomNavigation = findViewById( R.id.bottomNavigation );
+
+        //BT Stuff
+        enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_HOME, R.drawable.ic_baseline_home_24 ) );
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_LOCATION, R.drawable.ic_baseline_location_searching_24 ) );
@@ -44,6 +69,8 @@ public class MainPageActivity extends AppCompatActivity {
                 Toast.makeText( MainPageActivity.this, "Clicked item : " + item.getId(), Toast.LENGTH_SHORT ).show();
             }
         });
+
+
 
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
            @Override
@@ -62,7 +89,21 @@ public class MainPageActivity extends AppCompatActivity {
                         break;
 
                     case ID_LOCATION:
-                        replace( new RouteTrackerFragment() );
+                        if (BtAdapter == null) {
+                            Toast.makeText(MainPageActivity.this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            if (!BtAdapter.isEnabled()) {
+                                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                            }
+                        }
+                        if (BtAdapter.isEnabled()) {
+                            BtAdapter.disable();
+                            Toast.makeText(MainPageActivity.this, "BT Connection closed", Toast.LENGTH_SHORT).show();
+                        }
+
+                        replace( new PetlocationFragment() );
+
                         break;
 
                     case ID_PROFILE:
@@ -81,9 +122,28 @@ public class MainPageActivity extends AppCompatActivity {
         bottomNavigation.show( ID_HOME, true );
     }
 
+
     private void replace( Fragment fragment ) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace( R.id.fragment, fragment );
         transaction.commit();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(MainPageActivity.this, "BT Connection enabled", Toast.LENGTH_SHORT).show();
+                BtConnection btConnection = new BtConnection();
+                btConnection.bluetoothOn();
+            } else if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
+    }
+
+
+
+
 }
