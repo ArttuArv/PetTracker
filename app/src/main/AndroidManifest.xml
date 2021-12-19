@@ -52,9 +52,6 @@
             android:name=".MainPageActivity"
             android:exported="false" />
         <activity
-            android:name=".PetLocation"
-            android:exported="false" />
-        <activity
             android:name=".CreateAccount2Activity"
             android:exported="false" />
         <activity
