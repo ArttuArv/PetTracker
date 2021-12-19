@@ -34,6 +34,7 @@
 
     <EditText
         android:id="@+id/loginName"
+        android:textColor="@color/dark_blue"
         android:layout_width="285dp"
         android:layout_height="42dp"
         android:ems="10"
@@ -49,6 +50,7 @@
 
     <EditText
         android:id="@+id/enterPassword"
+        android:textColor="@color/dark_blue"
         android:layout_width="285dp"
         android:layout_height="42dp"
         android:ems="10"
