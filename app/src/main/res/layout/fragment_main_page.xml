@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainePageFragment">
+
+
+    <ImageButton
+        android:id="@+id/tilastot"
+        android:layout_width="188dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/koirantiedot"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.028"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <Button
+        android:id="@+id/koirantiedot"
+        android:layout_width="188dp"
+        android:layout_height="160dp"
+        android:layout_marginEnd="10dp"
+        android:text="Dog info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tilastot"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.028" />
+
+    <Button
+        android:id="@+id/kartta"
+        android:layout_width="match_parent"
+        android:layout_height="70pt"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/koirantiedot"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/tapahtumat"
+        android:layout_width="185dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="56dp"
+        android:text="Happenings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/OtaYhteytta"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kartta"
+        app:layout_constraintVertical_bias="0.695" />
+
+    <Button
+        android:id="@+id/OtaYhteytta"
+        android:layout_width="185dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="10dp"
+        android:text="Call me..maybe?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tapahtumat"
+        app:layout_constraintTop_toBottomOf="@+id/kartta"
+        app:layout_constraintVertical_bias="0.695" />
+
+    <ImageView
+        android:id="@+id/dogPic"
+        android:layout_width="385dp"
+        android:layout_height="206dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kartta"
+        app:layout_constraintVertical_bias="0.0"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

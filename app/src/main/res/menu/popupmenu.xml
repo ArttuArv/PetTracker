@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/kartta"
+        android:title="Map" />
+    <item
+        android:id="@+id/profiili"
+        android:title="Profile" />
+    <item
+        android:id="@+id/sijainti"
+        android:title="Location" />
+    <item
+        android:id="@+id/logi"
+        android:title="Log" />
+</menu>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile2Fragment">
+
+    <TextView
+        android:id="@+id/nameTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/nimi"
+        android:textSize="9pt"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/modifyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/nameTitle" />
+
+    <TextView
+        android:id="@+id/addressTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/address"
+        android:textSize="9pt"
+        app:layout_constraintTop_toBottomOf="@id/modifyName" />
+
+    <EditText
+        android:id="@+id/modifyAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/addressTitle" />
+
+    <TextView
+        android:id="@+id/phoneTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/phonenumber"
+        android:textSize="9pt"
+        app:layout_constraintTop_toBottomOf="@id/modifyAddress" />
+
+    <EditText
+        android:id="@+id/modifyPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@+id/phoneTitle"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/dogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/dog_info"
+        android:textSize="11pt"
+        app:layout_constraintTop_toBottomOf="@id/modifyPhone"
+        tools:layout_editor_absoluteX="19dp" />
+
+    <TextView
+        android:id="@+id/dogNameTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/nimi"
+        android:textSize="9pt"
+        app:layout_constraintTop_toBottomOf="@id/dogTitle" />
+
+    <EditText
+        android:id="@+id/modifyDogName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/dogNameTitle"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/dogBreedTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="@string/breed"
+        android:textSize="9pt"
+        app:layout_constraintTop_toBottomOf="@id/modifyDogName" />
+
+    <EditText
+        android:id="@+id/modifyDogBreed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/dogBreedTitle"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnSaveAlter"
+        style="@style/CustomButtonFonts"
+        android:layout_width="129dp"
+        android:layout_height="67dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnGoBack"
+        app:layout_constraintTop_toBottomOf="@+id/modifyDogBreed"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <Button
+        android:id="@+id/btnGoBack"
+        style="@style/CustomButtonFonts"
+        android:layout_width="129dp"
+        android:layout_height="67dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSaveAlter"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modifyDogBreed"
+        app:layout_constraintVertical_bias="0.255" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

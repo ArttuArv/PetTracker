@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccountActivity">
+
+    <ImageView
+        android:id="@+id/loginImage"
+        app:layout_constraintHeight_percent="1.15"
+        app:layout_constraintWidth_percent="1.15"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/createaccountdog" />
+
+    <TextView
+        android:id="@+id/accCreateError1"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:textSize="8pt"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/kayttajatunnus"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.114" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName"
+        app:layout_constraintVertical_bias="0.012" />
+
+    <Button
+        android:id="@+id/btnCreateAcc"
+        android:layout_width="167dp"
+        android:layout_height="57dp"
+        android:fontFamily="@font/oswald_semibold"
+        android:text="@string/luo_tili"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRetypePassword"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <EditText
+        android:id="@+id/editRetypePassword"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/re_type_password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword"
+        app:layout_constraintVertical_bias="0.015" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

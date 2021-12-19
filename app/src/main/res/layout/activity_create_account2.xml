@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccount2Activity">
+
+    <ImageView
+        android:id="@+id/loginImage"
+        app:layout_constraintHeight_percent="1.15"
+        app:layout_constraintWidth_percent="1.15"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/createaccountdog" />
+
+    <TextView
+        android:id="@+id/accCreateError2"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:textSize="8pt"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <EditText
+        android:id="@+id/editWholeName"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/nimi"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.101" />
+
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/osoite"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editWholeName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editPhonenumber"
+        android:layout_width="268dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/puhelinnumero"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editAddress"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnAccCreationDone"
+        android:layout_width="131dp"
+        android:layout_height="61dp"
+        android:fontFamily="@font/oswald_semibold"
+        android:text="@string/done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPhonenumber"
+        app:layout_constraintVertical_bias="0.013" />
+
+    <Button
+        android:id="@+id/btnAccCreationCancel"
+        android:layout_width="131dp"
+        android:layout_height="61dp"
+        android:fontFamily="@font/oswald_semibold"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAccCreationDone"
+        app:layout_constraintVertical_bias="0.017" />
+</androidx.constraintlayout.widget.ConstraintLayout>

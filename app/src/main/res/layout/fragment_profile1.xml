@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile1Fragment">
+
+
+    <TextView
+        android:id="@+id/userInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Information"
+        android:textSize="16pt"
+        android:fontFamily="@font/oswald_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10pt"/>
+
+    <TextView
+        android:id="@+id/nimiOtsikko"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Name"
+        android:textSize="10pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userInfo" />
+
+    <TextView
+        android:id="@+id/osoiteOtsikko"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Address"
+        android:textSize="10pt"
+        app:layout_constraintBottom_toTopOf="@+id/puhelinOtsikko"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/nimiOtsikko"
+        app:layout_constraintTop_toBottomOf="@id/userInfo"
+        app:layout_constraintVertical_bias="0.16" />
+
+    <TextView
+        android:id="@+id/nimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/oswald_medium"
+        android:text="Name"
+        android:textColor="@color/light_blue"
+        android:textSize="8pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nimiOtsikko" />
+
+    <TextView
+        android:id="@+id/osoite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/oswald_medium"
+        android:text="Address"
+        android:textColor="@color/light_blue"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toTopOf="@+id/puhelinOtsikko"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toEndOf="@id/nimi"
+        app:layout_constraintTop_toBottomOf="@id/osoiteOtsikko"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/puhelinOtsikko"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5pt"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Phonenumber"
+        android:textSize="10pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nimi" />
+
+    <!-- Koiran tiedot -->
+
+    <TextView
+        android:id="@+id/puhelin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="phonenumber"
+        android:textColor="@color/light_blue"
+        android:textSize="8pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/puhelinOtsikko" />
+
+    <TextView
+        android:id="@+id/dogInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Dog Information"
+        android:textSize="16pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/puhelin" />
+
+    <TextView
+        android:id="@+id/rotuOtsikko"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Breed"
+        android:textSize="10pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/koiranNimiOtsikko"
+        app:layout_constraintTop_toBottomOf="@id/dogInfo" />
+
+    <TextView
+        android:id="@+id/koiranNimiOtsikko"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/oswald_regular"
+        android:text="Name"
+        android:textSize="10pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dogInfo" />
+
+    <TextView
+        android:id="@+id/rotu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/oswald_medium"
+        android:text="breed"
+        android:textColor="@color/light_blue"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toEndOf="@id/koiranNimi"
+        app:layout_constraintTop_toBottomOf="@id/rotuOtsikko"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/koiranNimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/oswald_medium"
+        android:text="Name"
+        android:textColor="@color/light_blue"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/koiranNimiOtsikko"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnInfo2"
+        style="@style/CustomButtonFonts"
+        android:layout_width="204dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="45pt"
+        android:text="Update information"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rotu"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

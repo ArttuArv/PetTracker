@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/loginImage"
+        app:layout_constraintHeight_percent="1.15"
+        app:layout_constraintWidth_percent="1.15"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bluedog" />
+
+    <TextView
+        android:id="@+id/loginError"
+        android:layout_width="285dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <EditText
+        android:id="@+id/loginName"
+        android:layout_width="285dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/anna_kayttajatunnus"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121" />
+
+    <EditText
+        android:id="@+id/enterPassword"
+        android:layout_width="285dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:fontFamily="@font/oswald_regular"
+        android:hint="@string/anna_salasana"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginName"
+        app:layout_constraintVertical_bias="0.021" />
+
+    <Button
+        android:id="@+id/btnLogin2"
+        android:layout_width="285dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/oswald_semibold"
+        android:text="LOGIN"
+        app:layout_constraintBottom_toBottomOf="@+id/loginImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterPassword"
+        app:layout_constraintVertical_bias="0.032" />
+</androidx.constraintlayout.widget.ConstraintLayout>

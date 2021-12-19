@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomButtonFonts">
+        <item name="layout_constraintHeight_percent">0.5</item>
+        <item name="layout_constraintWidth_percent">0.5</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:capitalize">characters</item>
+        <item name="android:textSize">10pt</item>
+        <item name="android:fontFamily">@font/oswald_semibold</item>
+    </style>
+</resources>
