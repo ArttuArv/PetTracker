@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:tag="profiili1"
     tools:context=".Profile1Fragment">
 
 
@@ -169,9 +170,9 @@
 
     <Button
         android:id="@+id/btnInfo2"
-        style="@style/CustomButtonFonts"
-        android:layout_width="204dp"
-        android:layout_height="92dp"
+        android:layout_width="70pt"
+        android:layout_height="30pt"
+        android:fontFamily="@font/oswald_semibold"
         android:layout_marginTop="45pt"
         android:text="Update information"
         app:layout_constraintBottom_toBottomOf="parent"

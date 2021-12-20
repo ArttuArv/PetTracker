@@ -41,44 +41,56 @@ public class MainPageActivity extends AppCompatActivity {
     Intent enableBtIntent;
     int REQUEST_ENABLE_BT = 1;
     private boolean btCreated = false;
-    
+
+    private Profile1Fragment p1Fragment;
+    private final String SIMPLE_FRAGMENT_TAG = "profiili1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-         PetlocationFragment PlFragment = new PetlocationFragment();
-
-        MeowBottomNavigation bottomNavigation = findViewById( R.id.bottomNavigation );
+/*
+        if ( savedInstanceState != null ) {
+            System.out.println( "**************************");
+            System.out.println( "fragmentti on jo olemassa!");
+            System.out.println( "**************************");
+            p1Fragment = (Profile1Fragment) getSupportFragmentManager().findFragmentByTag( SIMPLE_FRAGMENT_TAG );
+        } else if ( p1Fragment == null ) {
+            System.out.println( "**************************");
+            System.out.println( "Luodaan uusi fragmentti!!!");
+            System.out.println( "**************************");
+            p1Fragment = new Profile1Fragment();
+        }
+*/
+        PetlocationFragment PlFragment = new PetlocationFragment();
 
         //BT Stuff
         enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+        // Upea alapalkki stuff
+        MeowBottomNavigation bottomNavigation = findViewById( R.id.bottomNavigation );
 
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_HOME, R.drawable.ic_baseline_home_24 ) );
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_LOCATION, R.drawable.ic_baseline_location_searching_24 ) );
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_PROFILE, R.drawable.ic_baseline_person_24 ) );
         bottomNavigation.add( new MeowBottomNavigation.Model( ID_LOG, R.drawable.ic_baseline_menu_book_24 ) );
 
-        DatabaseData dataStash = DatabaseData.getInstance();
-        Bundle bundle = new Bundle();
-
-
+        // Mitä alapalkki tekee kun sitä hiplaa
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-                Toast.makeText( MainPageActivity.this, "Clicked item : " + item.getId(), Toast.LENGTH_SHORT ).show();
+               // Toast.makeText( MainPageActivity.this, "Clicked item : " + item.getId(), Toast.LENGTH_SHORT ).show();
+            }
+        });
+        // Mitä alapalkki tekee kun hiplaat sitä toistamiseen
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                bottomNavigation.show( item.getId(), false );
             }
         });
 
-
-
-        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
-           @Override
-           public void onReselectItem(MeowBottomNavigation.Model item) {
-               bottomNavigation.show( item.getId(), false );
-           }
-        });
-
+        // Mitä alapalkki tekee kun sitä on hiplattu
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -115,6 +127,7 @@ public class MainPageActivity extends AppCompatActivity {
 
                     case ID_LOG:
                         replace( new LogsFragment() );
+
                         break;
 
                     default:
@@ -138,6 +151,8 @@ public class MainPageActivity extends AppCompatActivity {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(MainPageActivity.this, "BT Connection enabled", Toast.LENGTH_SHORT).show();
+                BtConnection btConnection = new BtConnection();
+                btConnection.bluetoothOn();
             } else if (resultCode == RESULT_CANCELED) {
 
             }

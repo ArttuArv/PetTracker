@@ -140,9 +140,9 @@
 
     <Button
         android:id="@+id/btnSaveAlter"
-        style="@style/CustomButtonFonts"
-        android:layout_width="129dp"
-        android:layout_height="67dp"
+        android:layout_width="70pt"
+        android:layout_height="30pt"
+        android:fontFamily="@font/oswald_semibold"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,9 +153,9 @@
 
     <Button
         android:id="@+id/btnGoBack"
-        style="@style/CustomButtonFonts"
-        android:layout_width="129dp"
-        android:layout_height="67dp"
+        android:layout_width="70pt"
+        android:layout_height="30pt"
+        android:fontFamily="@font/oswald_semibold"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSaveAlter"

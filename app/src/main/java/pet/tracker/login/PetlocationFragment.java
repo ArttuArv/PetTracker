@@ -87,7 +87,6 @@ public class PetlocationFragment extends Fragment {
                             followDoggo = false;
                             break;
                     }
-
                 }
             });
         }

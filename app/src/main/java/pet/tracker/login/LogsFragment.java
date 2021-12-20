@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,29 +34,35 @@ public class LogsFragment extends Fragment {
         list = view.findViewById(R.id.logsList);
         ArrayList<String> arrayList = new ArrayList<String>();
         for (int s : databaseData.courseIdArray) {
-            arrayList.add(" Lenkki " + String.valueOf(s));
+            arrayList.add(" Lenkki " + s);
             System.out.println(s);
         }
         ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(adapter);
 
-        ListWalks();
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedTrack.putExtra("courseid", position);
+                Bundle bundle = new Bundle();
+                bundle.putInt("selectedCourseID",position); // Put anything what you want
+
+                System.out.println("Onko tamakin Nolla?" + position);
+
+                RouteTrackerFragment routeTrackerFragment = new RouteTrackerFragment();
+                routeTrackerFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment, routeTrackerFragment, "")
+                        .addToBackStack(null)
+                        .commit();
 
             }
         });
+
 
         return view;
     }
 
 
-    public void ListWalks() {
-
-
-    }
 }
 
