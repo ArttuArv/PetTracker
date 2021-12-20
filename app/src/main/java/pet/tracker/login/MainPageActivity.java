@@ -138,8 +138,6 @@ public class MainPageActivity extends AppCompatActivity {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(MainPageActivity.this, "BT Connection enabled", Toast.LENGTH_SHORT).show();
-                BtConnection btConnection = new BtConnection();
-                btConnection.bluetoothOn();
             } else if (resultCode == RESULT_CANCELED) {
 
             }

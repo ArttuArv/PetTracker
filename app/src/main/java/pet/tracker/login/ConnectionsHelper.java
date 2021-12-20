@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Properties;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -517,14 +518,18 @@ public class ConnectionsHelper {
                 return true;
             } else {
                 int kierros =0;
+                ArrayList<Integer>courseIdArray = new ArrayList<>();
                 while (!result.isAfterLast()){
                     dataStash.setAllCourseID(kierros, result.getInt("idcourse"));
+                    courseIdArray.add(result.getInt("idcourse"));
                     result.next();
                 }
                 //Jos tulee rivejä, niin tallennetaan ne singletonin paremetreiksi
                 //dataStash.setCourseID( result.getInt( "idcourse" ) );
                 // dataStash.setGpsValues( result.getString( "gpsvalues" ) );
                 //dataStash.setSpeed_distance( result.getString( "speed_distance" ) );
+
+                dataStash.courseIdArray = courseIdArray;
 
                 System.out.println( "Course table done!");
                 System.out.println( "Data gathered succesfully!" );

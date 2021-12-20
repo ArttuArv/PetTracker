@@ -1,6 +1,8 @@
 package pet.tracker.login;
 
 
+import java.util.ArrayList;
+
 /************************************************************************
  *                                                                      *
  *   Tää on singleton-tyyppinen olio, joka tuhoutuu vasta kun           *
@@ -32,6 +34,8 @@ public class DatabaseData {
     private int petID;
     private String petName = "";
     private String petBreed = "";
+
+    public ArrayList<Integer> courseIdArray;
 
     private int courseID;
     private int latestCourseID;

@@ -40,10 +40,6 @@ public class BtConnection extends AppCompatActivity {
 
     SendReceive sendReceive;
 
-    ConnectionsHelper connHelper = new ConnectionsHelper();
-    DatabaseData databaseData = DatabaseData.getInstance();
-    public boolean dataSentToDatabase = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,31 +67,14 @@ public class BtConnection extends AppCompatActivity {
     }
     public void bluetoothOn() {
         listBtDevices();
-        if (false) {
+
             btClientClass = new ClientClass(btDeviceArray[0]);
             btClientClass.start();
-        }
+        Message message = Message.obtain();
+        message.what = STATE_CONNECTED;
+        PetlocationFragment.BtStatusHandler.sendMessage(message);
+
     }
-
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-
-            switch (msg.what){
-                case STATE_LISTENING:
-                   //status.setText("Ready to receive");
-                    break;
-                case STATE_CONNECTING:
-                   // status.setText("Connecting");
-                    break;
-                case STATE_CONNECTION_FAILED:
-                   // status.setText("Connection lost");
-                case STATE_RECEIVED:
-                    break;
-            }
-            return true;
-        }
-    });
 
     public class ClientClass extends Thread
     {
@@ -118,7 +97,7 @@ public class BtConnection extends AppCompatActivity {
                     socket.connect();
                     Message message = Message.obtain();
                     message.what = STATE_CONNECTED;
-                    handler.sendMessage(message);
+                    PetlocationFragment.BtStatusHandler.sendMessage(message);
 
                     sendReceive = new SendReceive(socket);
                     sendReceive.start();
@@ -130,7 +109,7 @@ public class BtConnection extends AppCompatActivity {
                 e.printStackTrace();
                 Message message = Message.obtain();
                 message.what = STATE_CONNECTION_FAILED;
-                handler.sendMessage(message);
+                PetlocationFragment.BtStatusHandler.sendMessage(message);
             }
         }
         public void stopBT(){
@@ -193,6 +172,10 @@ public class BtConnection extends AppCompatActivity {
                             ULMessage.what = STATE_NEW_LOCATION;
                             BtData.setLatLon();
                             PetlocationFragment.UpdateLocationHandler.sendMessage(ULMessage);
+                            Message message = Message.obtain();
+                            message.what = STATE_RECEIVED;
+                            PetlocationFragment.BtStatusHandler.sendMessage(message);
+
                         }
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
