@@ -19,7 +19,8 @@
 
     <Button
         android:id="@+id/btnLogin"
-        style="@style/CustomButtonFonts"
+        android:layout_height="25pt"
+        android:layout_width="100pt"
         android:text="KIRJAUDU"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +30,8 @@
 
     <Button
         android:id="@+id/btnCreateAccount"
-        style="@style/CustomButtonFonts"
+        android:layout_height="25pt"
+        android:layout_width="100pt"
         android:text="LUO TILI"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -43,6 +43,9 @@ public class PetlocationFragment extends Fragment {
     public static CameraPosition cameraPosition;
     static int cameraZoom = 6;
 
+    //Yritetään tallentaa fragmentin tila, jos se tuhoutuu kesken käytön
+    private Bundle savedState = null;
+
     ConnectionsHelper connHelper = new ConnectionsHelper();
 
 
@@ -58,7 +61,7 @@ public class PetlocationFragment extends Fragment {
                     .title(DatabaseData.getInstance().getPetName()));
             txMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.dogface));
 
-            cameraPosition = new CameraPosition.Builder().target(new LatLng(65.0593425, 25.4653385)).zoom(cameraZoom).build();
+            cameraPosition = new CameraPosition.Builder().target(new LatLng(65.0593425, 25.4653385)).zoom( cameraZoom ).build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
@@ -71,7 +74,6 @@ public class PetlocationFragment extends Fragment {
                             followDoggo = false;
                             break;
                     }
-
                 }
             });
         }
@@ -82,7 +84,7 @@ public class PetlocationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState ) {
 
         View view = inflater.inflate(R.layout.activity_petlocation, container, false);
         btList = view.findViewById(R.id.btList);
@@ -92,12 +94,12 @@ public class PetlocationFragment extends Fragment {
         CenterToDogBtn = view.findViewById(R.id.CenterToDogBtn);
         btConnect = view.findViewById(R.id.btConnect);
 
+
+
         btConnect.setText("Start Activity");
         followDoggo = true;
 
         enableBt();
-
-
 
         return view;
     }
@@ -117,8 +119,6 @@ public class PetlocationFragment extends Fragment {
             public void onClick(View v) {
                 sendToDatabase.start();
                 btConnect.setText("Stop Activity");
-
-
             }
         });
 

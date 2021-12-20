@@ -169,9 +169,9 @@
 
     <Button
         android:id="@+id/btnInfo2"
-        style="@style/CustomButtonFonts"
-        android:layout_width="204dp"
-        android:layout_height="92dp"
+        android:layout_width="70pt"
+        android:layout_height="30pt"
+        android:fontFamily="@font/oswald_semibold"
         android:layout_marginTop="45pt"
         android:text="Update information"
         app:layout_constraintBottom_toBottomOf="parent"
