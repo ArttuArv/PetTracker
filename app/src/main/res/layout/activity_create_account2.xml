@@ -86,8 +86,8 @@
 
     <Button
         android:id="@+id/btnAccCreationDone"
-        android:layout_width="131dp"
-        android:layout_height="61dp"
+        android:layout_height="25pt"
+        android:layout_width="70pt"
         android:fontFamily="@font/oswald_semibold"
         android:text="@string/done"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,8 +98,8 @@
 
     <Button
         android:id="@+id/btnAccCreationCancel"
-        android:layout_width="131dp"
-        android:layout_height="61dp"
+        android:layout_height="25pt"
+        android:layout_width="70pt"
         android:fontFamily="@font/oswald_semibold"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
