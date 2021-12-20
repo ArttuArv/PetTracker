@@ -71,9 +71,10 @@ public class BtConnection extends AppCompatActivity {
     }
     public void bluetoothOn() {
         listBtDevices();
-        btClientClass = new ClientClass(btDeviceArray[0]);
-        btClientClass.start();
-
+        if (false) {
+            btClientClass = new ClientClass(btDeviceArray[0]);
+            btClientClass.start();
+        }
     }
 
     Handler handler = new Handler(new Handler.Callback() {
