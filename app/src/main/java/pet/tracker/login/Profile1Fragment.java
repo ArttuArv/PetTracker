@@ -1,5 +1,6 @@
 package pet.tracker.login;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,9 +46,7 @@ public class Profile1Fragment extends Fragment {
         alterInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 replace( profile2 );
-
             }
         });
 

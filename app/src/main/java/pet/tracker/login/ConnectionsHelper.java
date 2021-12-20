@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Properties;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -516,7 +517,7 @@ public class ConnectionsHelper {
                 System.out.println( "No data in the table");
                 return true;
             } else {
-                int kierros =0;
+                int kierros = 0;
                 while (!result.isAfterLast()){
                     dataStash.setAllCourseID(kierros, result.getInt("idcourse"));
                     result.next();
@@ -533,6 +534,37 @@ public class ConnectionsHelper {
         } catch ( SQLException e ) {
             System.out.println( "Error accessing course table: " + e.getMessage() );
             return false;
+        }
+    }
+
+    protected ArrayList getGPSdata( int courseID ) {
+        PreparedStatement p;
+        ResultSet result;
+        ArrayList<String> gpsValues = new ArrayList<>();
+        int kierros = 0;
+        String sqlGPSdata = "SELECT latlongspeed FROM gsp WHERE course_idcourse = ?";
+
+        //Haetaan Kaikki gpstieto liittyen tiettyyn course-taulun id:hen
+        try {
+            p = connection.prepareStatement( sqlGPSdata );
+            p.setInt(1, courseID );
+            result = p.executeQuery();
+
+            if ( !result.first() ) {
+                System.out.println( "No data in the table" );
+                return null;
+            } else {
+                while ( !result.isAfterLast() ) {
+                    gpsValues.add( result.getString("latlongspeed") );
+                    System.out.println("Testitulostus Arraylist sisältä per rivi( "+ kierros + " ) = " + gpsValues.get(kierros) );
+                    kierros++;
+                    result.next();
+                }
+                return gpsValues;
+            }
+        } catch ( SQLException se ) {
+            System.out.println( "Error trying to print data from gsp: " + se.getMessage() );
+            return null;
         }
     }
 
