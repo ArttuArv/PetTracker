@@ -54,7 +54,6 @@ public class ConnectionsHelper {
     //Tässä on Singleton-tyyppinen luokka tiedonkeruuta varten
     DatabaseData dataStash = DatabaseData.getInstance();
 
-
     java.sql.Timestamp locationUpdateTime;
 
     //Parametritön konstruktori
