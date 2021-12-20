@@ -40,14 +40,14 @@ public class MainPageActivity extends AppCompatActivity {
     BluetoothAdapter BtAdapter = BluetoothAdapter.getDefaultAdapter();
     Intent enableBtIntent;
     int REQUEST_ENABLE_BT = 1;
-
-
-
+    private boolean btCreated = false;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+         PetlocationFragment PlFragment = new PetlocationFragment();
 
         MeowBottomNavigation bottomNavigation = findViewById( R.id.bottomNavigation );
 
@@ -89,20 +89,23 @@ public class MainPageActivity extends AppCompatActivity {
                         break;
 
                     case ID_LOCATION:
-                        if (BtAdapter == null) {
-                            Toast.makeText(MainPageActivity.this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
+                        if(!btCreated) {
+                            if (BtAdapter == null) {
+                                Toast.makeText(MainPageActivity.this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            if (!BtAdapter.isEnabled()) {
-                                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                            } else {
+                                if (!BtAdapter.isEnabled()) {
+                                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                                }
+                            }
+                            if (BtAdapter.isEnabled()) {
+                                Toast.makeText(MainPageActivity.this, "Connecting to PetTracker Receiver", Toast.LENGTH_SHORT).show();
+                                BtConnection btConnection = new BtConnection();
+                                btConnection.bluetoothOn();
                             }
                         }
-                        if (BtAdapter.isEnabled()) {
-                            BtAdapter.disable();
-                            Toast.makeText(MainPageActivity.this, "BT Connection closed", Toast.LENGTH_SHORT).show();
-                        }
-
-                        replace( new PetlocationFragment() );
+                        btCreated = true;
+                        replace( PlFragment );
 
                         break;
 
@@ -142,8 +145,5 @@ public class MainPageActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 
 }

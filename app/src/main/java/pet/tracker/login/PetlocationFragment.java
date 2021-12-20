@@ -1,9 +1,11 @@
 package pet.tracker.login;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +36,7 @@ public class PetlocationFragment extends Fragment {
     static final int STATE_NEW_LOCATION = 1;
     TextView message, status;
     ImageView btStatus;
-    Button btConnect;
+    Button startWalkbtn, endWalkbtn;
     ImageButton CenterToDogBtn;
     public static GoogleMap mMap;
     ListView btList;
@@ -42,9 +44,11 @@ public class PetlocationFragment extends Fragment {
     public static Marker txMarker;
     public static CameraPosition cameraPosition;
     static int cameraZoom = 6;
+    public static boolean WalkStarted = false;
 
-    ConnectionsHelper connHelper = new ConnectionsHelper();
+    public static ConnectionsHelper connHelper = new ConnectionsHelper();
 
+    Handler changeButtonHandler = new Handler(Looper.getMainLooper());
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -90,19 +94,18 @@ public class PetlocationFragment extends Fragment {
         status = view.findViewById(R.id.status);
         btStatus = view.findViewById(R.id.btStatus);
         CenterToDogBtn = view.findViewById(R.id.CenterToDogBtn);
-        btConnect = view.findViewById(R.id.btConnect);
+        startWalkbtn = view.findViewById(R.id.startWalk);
+        endWalkbtn = view.findViewById(R.id.endWalkbtn);
 
-        btConnect.setText("Start Activity");
+        startWalkbtn.setText("Start Walk");
+        endWalkbtn.setText("End Walk");
         followDoggo = true;
-
-        enableBt();
-
-
-
+        endWalkbtn.setVisibility(View.GONE);
+        ClicListeners();
         return view;
     }
 
-    public void enableBt() {
+    public void ClicListeners() {
 
         CenterToDogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,20 +115,79 @@ public class PetlocationFragment extends Fragment {
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
-        btConnect.setOnClickListener(new View.OnClickListener() {
+        startWalkbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToDatabase.start();
-                btConnect.setText("Stop Activity");
-
-
+                Thread OpenDatabaseConnection = new Thread(new Runnable() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void run() {
+                        connHelper.connectSSH();
+                        if (connHelper.connectSSH()) {
+                            connHelper.connectToMySql();
+                        }
+                        if (connHelper.connectToMySql()) {
+                            WalkStarted = connHelper.startWalk();
+                            changeButtonHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startWalkbtn.setVisibility(View.GONE);
+                                    endWalkbtn.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    }
+                });
+                OpenDatabaseConnection.start();
             }
         });
 
-
+        endWalkbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeButtonHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        startWalkbtn.setVisibility(View.VISIBLE);
+                        endWalkbtn.setVisibility(View.GONE);
+                        WalkStarted = false;
+                        followDoggo = false;
+                        cameraPosition = new CameraPosition.Builder().target(new LatLng(txMarker.getPosition().latitude, txMarker.getPosition().longitude)).zoom(13).build();
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        Thread closeWalkSession = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                connHelper.closeConnection();
+                                connHelper.disconnectSession();
+                            }
+                        });
+                        closeWalkSession.start();
+                    }
+                });
+            }
+        });
     }
 
-    public static Handler UpdateLocationHandler = new Handler(new Handler.Callback() {
+    public static Handler SendLocationToDatabaseHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+
+            switch (msg.what) {
+                case STATE_NEW_LOCATION:
+                    Thread SendLocationToDatabase = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                                connHelper.setCourseData();
+                        }
+                    });
+                    SendLocationToDatabase.start();
+            }
+            return true;
+        }
+
+    });
+
+public static Handler UpdateLocationHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -133,6 +195,11 @@ public class PetlocationFragment extends Fragment {
                     cameraZoom = 18;
                     txMarker.setPosition(BtData.getLatLng());
                     cameraPosition = new CameraPosition.Builder().target(new LatLng(txMarker.getPosition().latitude, txMarker.getPosition().longitude)).zoom(cameraZoom).build();
+                    if(WalkStarted) {
+                        Message ULMessage = Message.obtain();
+                        ULMessage.what = STATE_NEW_LOCATION;
+                        PetlocationFragment.SendLocationToDatabaseHandler.sendMessage(ULMessage);
+                    }
                     if (followDoggo) {
                         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
@@ -142,14 +209,6 @@ public class PetlocationFragment extends Fragment {
         }
     });
 
-
-    Thread sendToDatabase = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            connHelper.connectSSH();
-            connHelper.connectToMySql();
-        }
-    });
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
