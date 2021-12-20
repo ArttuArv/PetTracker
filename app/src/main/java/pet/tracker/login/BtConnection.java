@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,19 +73,7 @@ public class BtConnection extends AppCompatActivity {
         listBtDevices();
         btClientClass = new ClientClass(btDeviceArray[0]);
         btClientClass.start();
-        Thread sendToDatabase = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                connHelper.connectSSH();
-                if ( connHelper.connectSSH() ) {
-                    connHelper.connectToMySql();
-                }
-                if(connHelper.connectToMySql()){
-                    connHelper.startWalk();
-                }
-            }
-        });
-        sendToDatabase.start();
+
     }
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -202,9 +191,6 @@ public class BtConnection extends AppCompatActivity {
                             Message ULMessage = Message.obtain();
                             ULMessage.what = STATE_NEW_LOCATION;
                             BtData.setLatLon();
-                            if(connHelper.connectToMySql()) {
-                                dataSentToDatabase = connHelper.setCourseData(BtData.getBtDataJSON().toString());
-                            }
                             PetlocationFragment.UpdateLocationHandler.sendMessage(ULMessage);
                         }
                     } catch (IOException | JSONException e) {

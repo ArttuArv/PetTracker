@@ -153,6 +153,7 @@ public class DatabaseData {
     public void setAllCourseID(int i,int allCourseID) {
         this.allCourseID[i] = allCourseID;
     }
+
     public void setAllCourseIDsize(int size){
         this.allCourseID = new int[size];
     }

@@ -364,7 +364,7 @@ public class ConnectionsHelper {
     }
 
     //Tallenetaan gps ja muut tiedot tietokantaan
-    protected boolean setCourseData(String gpsValues) {
+    protected boolean setCourseData() {
         PreparedStatement p;
         String sqlQuery = "INSERT INTO gsp(course_idcourse, latlongspeed, time) VALUES(?, ?, ?)";
 
@@ -373,23 +373,23 @@ public class ConnectionsHelper {
             locationUpdateTime = new java.sql.Timestamp(new java.util.Date().getTime());
             p = connection.prepareStatement( sqlQuery );
             p.setInt(1, dataStash.getLatestCourseID() );
-            p.setString( 2, gpsValues );
+            p.setString( 2, BtData.getBtDataJSON().toString() );
             p.setTimestamp(3,locationUpdateTime);
 
             //Viedään kysely tietokantaan
             int i = p.executeUpdate();
 
             if ( i > 0 ) {
-                System.out.println( "Course table succesfully updated!" );
+                System.out.println( "New gsp data updated!" );
                 return true;
             } else {
-                System.out.println( "Updating course table failed!" );
+                System.out.println( "Updating gsp table failed!" );
                 return false;
             }
 
         } catch ( SQLException se ) {
 
-            System.out.println( "Error inserting data to course table: " + se.getMessage() );
+            System.out.println( "Error inserting data to gsp table: " + se.getMessage() );
             return false;
         }
 
@@ -521,7 +521,6 @@ public class ConnectionsHelper {
                     dataStash.setAllCourseID(kierros, result.getInt("idcourse"));
                     result.next();
                 }
-                System.out.println("################"+dataStash.getAllCourseID() + "##############");
                 //Jos tulee rivejä, niin tallennetaan ne singletonin paremetreiksi
                 //dataStash.setCourseID( result.getInt( "idcourse" ) );
                 // dataStash.setGpsValues( result.getString( "gpsvalues" ) );
