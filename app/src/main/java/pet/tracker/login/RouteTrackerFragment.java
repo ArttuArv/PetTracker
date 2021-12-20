@@ -72,7 +72,7 @@ public class RouteTrackerFragment extends Fragment {
                     connHelper.connectToMySql();
 
 
-                    gspValueArr = connHelper.getGPSdata( selectedCourse );
+                    gspValueArr = connHelper.getGPSdata( selectedCourse+3 );
                     System.out.println("Tassa ont taa sydeemi" + selectedCourse);
                     connHelper.closeConnection();
                     connHelper.disconnectSession();
@@ -130,27 +130,6 @@ public class RouteTrackerFragment extends Fragment {
                     });
                 }
             });
-
-            System.out.println( "lat: " + lat1 + "\tlon: " + lon1);
-            /*
-            oulu = new LatLng(  lat1 , lon1 );
-            googleMap.addMarker(new MarkerOptions().position( oulu ).title("Marker in Oulu"));
-            googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( oulu, 12 ) );
-*/
-            /*
-            splitStr2Double( gpsValues );
-            for ( int i = 0; i < lat.size(); i++ ) {
-
-                latLngList.add( new LatLng( lat.get(i), lng.get(i) ) );
-            } */
-
-            // Draw Polyline on Map
-            // Polylines are useful to show route or some other connection between points.
-            polyline = gMap.addPolyline( new PolylineOptions().clickable( true ).addAll( latLngList ) );
-            polyline.setWidth( 12 );
-            polyline.setColor( Color.RED );
-            polyline.setJointType( JointType.ROUND );
-
         }
     };
 
