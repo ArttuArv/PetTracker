@@ -44,6 +44,37 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         createAccount.setEnabled( false );
 
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                verifyPWord = verifyPassword.getText().toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                //Asiat, jotka tapahtuu tekstin muuttamisen aikana
+                uName = name.getText().toString();
+                pWord = password.getText().toString();
+                createAccount.setEnabled( false );
+                pWordIsValid = validatePass( pWord, verifyPWord);
+
+                if ( pWordIsValid && uName.isEmpty() ) {
+                    errorTxt.setTextColor( Color.RED );
+                    errorTxt.setText( "GIVE USERNAME!" );
+
+                    createAccount.setEnabled( false );
+                    name.clearComposingText();
+                    password.clearComposingText();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         verifyPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -56,6 +87,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 //Asiat, jotka tapahtuu tekstin muuttamisen aikana
                 uName = name.getText().toString();
                 verifyPWord = verifyPassword.getText().toString();
+                createAccount.setEnabled( false );
                 pWordIsValid = validatePass( pWord, verifyPWord);
 
                 if ( pWordIsValid && uName.isEmpty() ) {
