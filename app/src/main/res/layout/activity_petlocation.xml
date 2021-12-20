@@ -60,15 +60,6 @@
         app:layout_constraintStart_toEndOf="@+id/startWalk"
         />
 
-    <ListView
-        android:id="@+id/btList"
-        android:layout_marginTop="76dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/btStatus"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageButton
         android:id="@+id/CenterToDogBtn"
         android:layout_width="wrap_content"

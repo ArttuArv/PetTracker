@@ -79,15 +79,15 @@ public class MainPageActivity extends AppCompatActivity {
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-                Toast.makeText( MainPageActivity.this, "Clicked item : " + item.getId(), Toast.LENGTH_SHORT ).show();
+               // Toast.makeText( MainPageActivity.this, "Clicked item : " + item.getId(), Toast.LENGTH_SHORT ).show();
             }
         });
         // Mitä alapalkki tekee kun hiplaat sitä toistamiseen
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
-           @Override
-           public void onReselectItem(MeowBottomNavigation.Model item) {
-               bottomNavigation.show( item.getId(), false );
-           }
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                bottomNavigation.show( item.getId(), false );
+            }
         });
 
         // Mitä alapalkki tekee kun sitä on hiplattu
@@ -126,9 +126,8 @@ public class MainPageActivity extends AppCompatActivity {
                         break;
 
                     case ID_LOG:
-                        // Väliaikaisesti tästä kartanpiirtelysivulle
-                        //replace( new LogsFragment() );
-                        replace( new RouteTrackerFragment() );
+                        replace( new LogsFragment() );
+
                         break;
 
                     default:

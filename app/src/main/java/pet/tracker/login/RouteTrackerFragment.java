@@ -6,35 +6,19 @@ import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RouteTrackerFragment extends Fragment {
 
     GoogleMap gMap;
-    Marker oulu;
     Polyline polyline = null;
     List<LatLng> latLngList = new ArrayList<>();
+    List<Marker> markerList = new ArrayList<>();
     List<Double> lat = new ArrayList<>();
     List<Double> lng = new ArrayList<>();
-
-    ExecutorService executors = Executors.newSingleThreadExecutor();
-    Handler handler = new Handler( Looper.getMainLooper() );
-    ConnectionsHelper connHelper;
-
-    ArrayList<String> gspValueArr = new ArrayList<>();
-    JSONObject jsonObject;
-    double lat1, lon1;
 
     InfoStash gpsStash = new InfoStash();
     String gpsValues = gpsStash.gpsValues;
@@ -52,91 +36,19 @@ public class RouteTrackerFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng ouluLatLng = new LatLng(65.010036, 25.467453);
-            oulu = googleMap.addMarker(new MarkerOptions().position( ouluLatLng ).title("Marker in Oulu"));
-            oulu.setIcon( BitmapDescriptorFactory.fromResource( R.drawable.dogface ) );
-            //googleMap.addMarker(new MarkerOptions().position( oulu ).title("Marker in Oulu"));
-            googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( ouluLatLng, 12 ) );
+            LatLng oulu = new LatLng(65.010036, 25.467453);
+            googleMap.addMarker(new MarkerOptions().position( oulu ).title("Marker in Oulu"));
+            googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( oulu, 12 ) );
 
             gMap = googleMap;
 
-            connHelper = new ConnectionsHelper();
-
-            executors.execute(new Runnable() {
-                @Override
-                public void run() {
-
-                    connHelper.connectSSH();
-                    connHelper.connectToMySql();
-
-                    gspValueArr = connHelper.getGPSdata( 40 );
-
-                    connHelper.closeConnection();
-                    connHelper.disconnectSession();
-
-                    int koko = gspValueArr.size();
-                    String[] array = new String[ koko ];
-
-                    System.out.println( "Fragmentissa tulostettu ArrayList arvot:" );
-
-                    for ( int i = 0; i < gspValueArr.size(); i++ ) {
-
-                        System.out.println( gspValueArr.get(i) );
-                        array[i] = gspValueArr.get(i);
-
-                        try {
-                            jsonObject = new JSONObject( array[i] );
-                            System.out.println( Double.parseDouble( jsonObject.getString("lat") ));
-                            latLngList.add( new LatLng( Double.parseDouble( jsonObject.getString("lat") ), Double.parseDouble( jsonObject.getString("lon") ) ) );
-                            lat1 = Double.parseDouble( jsonObject.getString("lat") );
-                            lon1 = Double.parseDouble( jsonObject.getString("lon") );
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            System.out.println( "Tuleeko tänne mitää erroria: " + e.getMessage() );
-                        }
-                    }
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            System.out.println( "lat: " + lat1 + "\tlon: " + lon1);
-
-                            LatLng oulu1 = new LatLng(  lat1 , lon1 );
-                            oulu = googleMap.addMarker(new MarkerOptions().position( oulu1 ).title("Marker in Oulu"));
-                            oulu.setIcon( BitmapDescriptorFactory.fromResource( R.drawable.dogface ) );
-                            googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( oulu1, 18 ) );
-                            /*
-                            splitStr2Double( gpsValues );
-                            for ( int i = 0; i < lat.size(); i++ ) {
-
-                                latLngList.add( new LatLng( lat.get(i), lng.get(i) ) );
-                            } */
-
-                            // Draw Polyline on Map
-                            // Polylines are useful to show route or some other connection between points.
-                            polyline = gMap.addPolyline( new PolylineOptions().clickable( true ).addAll( latLngList ) );
-                            polyline.setWidth( 12 );
-                            polyline.setColor( Color.RED );
-                            polyline.setJointType( JointType.ROUND );
-                        }
-                    });
-                }
-            });
-
-            System.out.println( "lat: " + lat1 + "\tlon: " + lon1);
-            /*
-            oulu = new LatLng(  lat1 , lon1 );
-            googleMap.addMarker(new MarkerOptions().position( oulu ).title("Marker in Oulu"));
-            googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( oulu, 12 ) );
-*/
-            /*
             splitStr2Double( gpsValues );
+
             for ( int i = 0; i < lat.size(); i++ ) {
 
                 latLngList.add( new LatLng( lat.get(i), lng.get(i) ) );
-            } */
+
+            }
 
             // Draw Polyline on Map
             // Polylines are useful to show route or some other connection between points.
@@ -145,6 +57,19 @@ public class RouteTrackerFragment extends Fragment {
             polyline.setColor( Color.RED );
             polyline.setJointType( JointType.ROUND );
 
+            gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull LatLng latLng) {
+                    // Create MarkerOptions
+                    MarkerOptions markerOptions = new MarkerOptions().position( latLng );
+                    // Create Marker
+                    Marker marker = gMap.addMarker( markerOptions );
+                    // Add Latlng and Marker
+                    latLngList.add( latLng );
+                    markerList.add( marker );
+
+                }
+            });
         }
     };
 

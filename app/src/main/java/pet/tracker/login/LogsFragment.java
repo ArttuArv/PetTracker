@@ -1,68 +1,68 @@
 package pet.tracker.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Set;
 
 
 public class LogsFragment extends Fragment {
 
-    ExecutorService executors = Executors.newSingleThreadExecutor();
-    ConnectionsHelper connHelper;
+    public DatabaseData databaseData = DatabaseData.getInstance();
+    ListView list;
 
-    ArrayList<String> gspValueArr = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_logs, container, false);
+        Intent selectedTrack = new Intent(getActivity(), RouteTrackerFragment.class);
 
-        connHelper = new ConnectionsHelper();
+        list = view.findViewById(R.id.logsList);
+        ArrayList<String> arrayList = new ArrayList<String>();
+        for (int s : databaseData.courseIdArray) {
+            arrayList.add(" Lenkki " + s);
+            System.out.println(s);
+        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, arrayList);
+        list.setAdapter(adapter);
 
-        executors.execute(new Runnable() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void run() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("selectedCourseID",position); // Put anything what you want
 
-                connHelper.connectSSH();
-                connHelper.connectToMySql();
+                System.out.println("Onko tamakin Nolla?" + position);
 
-                gspValueArr = connHelper.getGPSdata( 40 );
-                int koko = gspValueArr.size();
-                String[] array = new String[ koko ];
-
-                System.out.println( "Fragmentissa tulostettu ArrayList arvot:" );
-
-                for ( int i = 0; i < gspValueArr.size(); i++ ) {
-
-                    System.out.println( gspValueArr.get(i) );
-                    array[i] = gspValueArr.get(i);
-                }
-
-                try {
-                    JSONObject jsonObject = new JSONObject( array[0] );
-                    System.out.println( "JSON SISÄLTÖ: " + jsonObject );
-                    System.out.println( Double.parseDouble( jsonObject.getString("lat") ));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+                RouteTrackerFragment routeTrackerFragment = new RouteTrackerFragment();
+                routeTrackerFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment, routeTrackerFragment, "")
+                        .addToBackStack(null)
+                        .commit();
 
             }
         });
 
+
         return view;
     }
+
+
 }
+

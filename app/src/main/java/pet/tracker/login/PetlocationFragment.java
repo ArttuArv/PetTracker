@@ -34,21 +34,33 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class PetlocationFragment extends Fragment {
 
     static final int STATE_NEW_LOCATION = 1;
-    TextView message, status;
+   public static TextView message, status;
     ImageView btStatus;
     Button startWalkbtn, endWalkbtn;
     ImageButton CenterToDogBtn;
-    public static GoogleMap mMap;
+
     ListView btList;
+
     public static boolean followDoggo;
+    public static boolean WalkStarted = false;
+
+    public static GoogleMap mMap;
     public static Marker txMarker;
     public static CameraPosition cameraPosition;
     static int cameraZoom = 6;
-    public static boolean WalkStarted = false;
+
 
     public static ConnectionsHelper connHelper = new ConnectionsHelper();
 
     Handler changeButtonHandler = new Handler(Looper.getMainLooper());
+
+    static final int STATE_LISTENING = 1;
+    static final int STATE_CONNECTING = 2;
+    static final int STATE_CONNECTED = 3;
+    static final int STATE_CONNECTION_FAILED = 4;
+    static final int STATE_RECEIVED = 5;
+
+
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -80,7 +92,6 @@ public class PetlocationFragment extends Fragment {
         }
     };
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -88,7 +99,6 @@ public class PetlocationFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_petlocation, container, false);
-        btList = view.findViewById(R.id.btList);
         message = view.findViewById(R.id.message);
         status = view.findViewById(R.id.status);
         btStatus = view.findViewById(R.id.btStatus);
@@ -100,11 +110,21 @@ public class PetlocationFragment extends Fragment {
         endWalkbtn.setText("End Walk");
         followDoggo = true;
         endWalkbtn.setVisibility(View.GONE);
-        ClicListeners();
+        ClickListeners();
         return view;
     }
 
-    public void ClicListeners() {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+    }
+
+    public void ClickListeners() {
 
         CenterToDogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +160,6 @@ public class PetlocationFragment extends Fragment {
                 OpenDatabaseConnection.start();
             }
         });
-
         endWalkbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,26 +186,31 @@ public class PetlocationFragment extends Fragment {
         });
     }
 
-    public static Handler SendLocationToDatabaseHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
+    public static Handler BtStatusHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
 
-            switch (msg.what) {
-                case STATE_NEW_LOCATION:
-                    Thread SendLocationToDatabase = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                                connHelper.setCourseData();
-                        }
-                    });
-                    SendLocationToDatabase.start();
+                switch (msg.what) {
+                    case STATE_LISTENING:
+ //                       status.setText("Ready to receive");
+                        break;
+                    case STATE_CONNECTING:
+ //                       status.setText("Connecting");
+                        break;
+                    case STATE_CONNECTED:
+//                        status.setText("Connected To Receiver");
+                        break;
+                    case STATE_CONNECTION_FAILED:
+ //                       status.setText("Connection lost");
+                    case STATE_RECEIVED:
+                        break;
+                }
+                return true;
             }
-            return true;
-        }
+        });
 
-    });
 
-public static Handler UpdateLocationHandler = new Handler(new Handler.Callback() {
+    public static Handler UpdateLocationHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -207,14 +231,21 @@ public static Handler UpdateLocationHandler = new Handler(new Handler.Callback()
             return true;
         }
     });
+    public static Handler SendLocationToDatabaseHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
+            switch (msg.what) {
+                case STATE_NEW_LOCATION:
+                    Thread SendLocationToDatabase = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            connHelper.setCourseData();
+                        }
+                    });
+                    SendLocationToDatabase.start();
+            }
+            return true;
         }
-    }
+    });
 }
